@@ -93,7 +93,7 @@ function stripComment(s) {
 }
 
 function parseYaml(text) {
-  const lines = text.split('\n');
+  const lines = text.split(/\r?\n/);
   let idx = 0;
   const indentOf = (l) => l.match(/^(\s*)/)[1].length;
 
@@ -151,9 +151,10 @@ function parseYaml(text) {
 // ─── Frontmatter ───
 
 function splitFrontmatter(md) {
-  const m = md.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  const text = md.replace(/\r\n/g, '\n');
+  const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
   if (m) return { meta: parseYaml(m[1]), body: m[2] };
-  return { meta: {}, body: md };
+  return { meta: {}, body: text };
 }
 
 // ─── 往上層尋找 config.yaml ───
@@ -532,6 +533,9 @@ async function main() {
   if (cfgPath) {
     cfg = parseYaml(readFileSync(cfgPath, 'utf-8'));
     console.log(`· config：${cfgPath}`);
+    if (!cfg.instructor || typeof cfg.instructor !== 'object' || !cfg.instructor.name) {
+      console.warn(`⚠ ${cfgPath} 未解析到 instructor.name，PDF 將不顯示講師欄位與「關於講師」區塊`);
+    }
   } else {
     console.warn('⚠ 找不到 config.yaml，將略過「關於講師」區塊');
   }
