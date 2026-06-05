@@ -1,16 +1,44 @@
+# ── OS ──────────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
+desktop.ini
 
+# ── Node.js ─────────────────────────────────────────────────
 node_modules/
-
-.env
-.env.*
-!.env.example
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# ── 環境變數 ─────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── 建置暫存 ─────────────────────────────────────────────────
 .cache/
 .tmp/
 tmp/
+dist/
+
+# ── AI 工具設定（本機專用，不入版控）────────────────────────
+.claude/
+.codex/
+.cursor/
+
+# ── 音訊相關（原始檔 + AI 生成輸出）────────────────────────
+audio/*.m4a
+audio/*.mp3
+audio/*.wav
+audio/*.flac
+audio/*.aac
+audio/*.srt
+audio/summary.md
+
+# ── 圖片素材 ─────────────────────────────────────────────────
+images/
+
+# ── 個人備份與暫存 ────────────────────────────────────────────
+.agents/backup/
+proposal/todo/
+doc/
