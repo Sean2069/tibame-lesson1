@@ -1,0 +1,21 @@
+page:
+  title: "Vibe Coding 打造課程講義模板"
+  badge: "工程師下班很忙"
+  hero_title: "Vibe Coding<br>打造可重複使用的講義模板"
+  subtitle: "用 AI Agent 從零生成網頁、建立 Markdown 模板、封裝 Agent Skill，讓每次備課都快速又精準"
+
+seo:
+  title: "Vibe Coding 打造課程講義模板｜工程師下班很忙"
+  description: "從 Codex 安裝到 Agent Skill 封裝，帶你用系統設計思維打造一套可長期維護的課程講義生成工具。"
+  image: ""
+  url: ""
+
+quotes:
+  opening:
+    text: "工具的最高境界，<br>是你開始擁有它，而不是被它擁有。"
+  closing:
+    text: >
+      AI 真正厲害的地方，<br>
+      從來都不是幫你省下一次工作的時間。<br><br>
+      而是它讓你有機會，<br>
+      把自己原有的工作流，<br>設計成一套可以持續優化的模板。
