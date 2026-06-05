@@ -1,0 +1,53 @@
+{
+  "skill_name": "commit-message-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "幫我看一下暫存的改動，然後幫我寫 commit 訊息。\n\n（測試情境設定：在一個臨時 git repo 中，已 staged 以下變更：新增 cart.py，包含 ShoppingCart 類別，有 add_item、remove_item、get_total 三個方法）",
+      "expected_output": "生成 2-3 個繁體中文候選 commit 訊息，使用 ✨ 表情符號代表新增功能，主旨以動詞開頭，描述新增購物車功能",
+      "files": [],
+      "setup": {
+        "description": "建立臨時 git repo，新增 cart.py 並 git add",
+        "commands": [
+          "git init /tmp/test-repo-cart && cd /tmp/test-repo-cart && git config user.email 'test@test.com' && git config user.name 'Test'",
+          "cat > /tmp/test-repo-cart/cart.py << 'EOF'\nclass ShoppingCart:\n    def __init__(self):\n        self.items = []\n\n    def add_item(self, name, price, qty=1):\n        self.items.append({'name': name, 'price': price, 'qty': qty})\n\n    def remove_item(self, name):\n        self.items = [i for i in self.items if i['name'] != name]\n\n    def get_total(self):\n        return sum(i['price'] * i['qty'] for i in self.items)\nEOF",
+          "cd /tmp/test-repo-cart && git add cart.py"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "這些改動要怎麼 commit？\n\n（測試情境設定：在臨時 git repo，已 staged 對 login.js 的修改：原本 validateEmail 函式沒有檢查空字串，修正後加入了空字串驗證與錯誤訊息提示）",
+      "expected_output": "生成 2-3 個繁體中文候選 commit 訊息，使用 🐛 表情符號，清楚描述修正登入或 Email 驗證的 bug",
+      "files": [],
+      "setup": {
+        "description": "建立臨時 git repo，模擬 bug 修正",
+        "commands": [
+          "git init /tmp/test-repo-login && cd /tmp/test-repo-login && git config user.email 'test@test.com' && git config user.name 'Test'",
+          "cat > /tmp/test-repo-login/login.js << 'EOF'\nfunction validateEmail(email) {\n  const re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n  return re.test(email);\n}\nEOF",
+          "cd /tmp/test-repo-login && git add login.js && git commit -m 'init'",
+          "cat > /tmp/test-repo-login/login.js << 'EOF'\nfunction validateEmail(email) {\n  if (!email || email.trim() === '') {\n    throw new Error('Email 不得為空');\n  }\n  const re = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n  if (!re.test(email)) {\n    throw new Error('Email 格式不正確');\n  }\n  return true;\n}\nEOF",
+          "cd /tmp/test-repo-login && git add login.js"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "我要送出這些改動了，commit 訊息寫什麼好？\n\n（測試情境設定：在臨時 git repo，已 staged 兩個檔案：README.md 新增了安裝說明章節；config.yaml 修改了 timeout 設定值從 30 改為 60）",
+      "expected_output": "生成 2-3 個繁體中文候選 commit 訊息，能反映混合型變更（文件＋設定），使用適當的表情符號，或選擇最主要變更作為主旨",
+      "files": [],
+      "setup": {
+        "description": "建立臨時 git repo，模擬文件與設定同時更新",
+        "commands": [
+          "git init /tmp/test-repo-docs && cd /tmp/test-repo-docs && git config user.email 'test@test.com' && git config user.name 'Test'",
+          "cat > /tmp/test-repo-docs/README.md << 'EOF'\n# 專案說明\n\n這是一個示範專案。\nEOF",
+          "cat > /tmp/test-repo-docs/config.yaml << 'EOF'\nserver:\n  timeout: 30\n  port: 8080\nEOF",
+          "cd /tmp/test-repo-docs && git add . && git commit -m 'init'",
+          "cat > /tmp/test-repo-docs/README.md << 'EOF'\n# 專案說明\n\n這是一個示範專案。\n\n## 安裝方式\n\n1. 安裝 Node.js 18+\n2. 執行 `npm install`\n3. 複製 `.env.example` 為 `.env` 並填入設定\n4. 執行 `npm start`\nEOF",
+          "cat > /tmp/test-repo-docs/config.yaml << 'EOF'\nserver:\n  timeout: 60\n  port: 8080\nEOF",
+          "cd /tmp/test-repo-docs && git add ."
+        ]
+      }
+    }
+  ]
+}
